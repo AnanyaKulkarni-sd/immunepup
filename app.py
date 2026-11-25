@@ -16,7 +16,7 @@ h1,h2,h3 { color:var(--ink); }
 .topbar { background:linear-gradient(110deg,#7136d9,#8b50ec); color:white; padding:20px 24px; border-radius:22px; margin-bottom:18px; box-shadow:0 12px 30px #6130bf22; }
 .topbar h1 { color:white; font-family:'Playfair Display',serif; font-size:30px; margin:0; }
 .topbar p { color:#eee5ff; margin:3px 0 0 0; font-size:13px; }
-.panel { background:white; border:1px solid #ece7f6; border-radius:20px; padding:18px; min-height:450px; box-shadow:0 8px 24px #34205b0a; }
+.panel { background:white; border:1px solid #ece7f6; border-radius:20px; padding:18px; box-shadow:0 8px 24px #34205b0a; }
 .panel-title { font-family:'Playfair Display',serif; font-size:21px; color:#19162e; margin-bottom:12px; }
 .muted { color:#89859b; font-size:12px; }
 .event { border-radius:12px; padding:12px 13px; margin:9px 0; border-left:5px solid; }
@@ -96,7 +96,6 @@ left, center, right = st.columns([1.02,1.55,1.02], gap="medium")
 
 # -------------------- Left: agenda --------------------
 with left:
-    st.markdown('<div class="panel">', unsafe_allow_html=True)
     st.markdown('<div class="panel-title">Vaccination agenda</div>', unsafe_allow_html=True)
     st.caption("Upcoming and recent records")
     view_filter = st.selectbox("Show", ["All dogs","Pet dogs","Community dogs"], label_visibility="collapsed")
@@ -117,11 +116,9 @@ with left:
           <strong>{r['vaccine']}</strong><br>
           <small>{r['dog']} · {r['clinic']}</small>
         </div>""", unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
 
 # -------------------- Center: calendar / timeline --------------------
 with center:
-    st.markdown('<div class="panel" style="padding:0;overflow:hidden">', unsafe_allow_html=True)
     st.markdown(f'<div class="dayhead"><h2>{month_name}</h2><p>Vaccination calendar · Select a record on the right to view details</p></div>', unsafe_allow_html=True)
     cal = calendar.Calendar(firstweekday=6)
     weeks = cal.monthdayscalendar(today.year,today.month)
@@ -156,11 +153,9 @@ with center:
             <span style="font-size:11px;color:#69627d">{r['clinic']}</span>
           </div>
         </div>""",unsafe_allow_html=True)
-    st.markdown("</div>", unsafe_allow_html=True)
 
 # -------------------- Right: details and add form --------------------
 with right:
-    st.markdown('<div class="panel">', unsafe_allow_html=True)
     st.markdown('<div class="panel-title">Record details</div>', unsafe_allow_html=True)
     record_labels = [f"{r['dog']} · {r['vaccine']} · {r['date'].strftime('%d %b')}" for r in records]
     selected_label = st.selectbox("Choose a record",record_labels,index=min(st.session_state.selected,len(record_labels)-1))
